@@ -1,8 +1,12 @@
+# don't check in ARM template parameters
+*-parameters.json
+# don't check in deploy script
+deploy.sh
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
 # C extensions
 *.so
 
