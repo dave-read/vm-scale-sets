@@ -1,0 +1,12 @@
+#cloud-config
+write_files:
+- content: |
+    <html>
+    <body>
+    write_files content from cloud-init
+    </body>
+    </html>
+  path: /var/www/html/cloud-init.html
+  owner: root:root
+  permissions: '0755'
+

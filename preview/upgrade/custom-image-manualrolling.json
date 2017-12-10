@@ -39,6 +39,12 @@
       "metadata": {
         "description": "DNS prefix for public IP."
       }
+    },
+    "cloudInit": {
+      "type": "string",
+      "metadata": {
+        "description": "cloud-init initialization script."
+      }
     }
   },
   "variables": {
@@ -228,7 +234,7 @@
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/loadBalancers/', variables('lbName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks/', variables('newVNETName'))]"       
+        "[resourceId('Microsoft.Network/virtualNetworks/', variables('newVNETName'))]"
       ],
       "sku": {
         "name": "Standard_DS1_v2",
@@ -260,6 +266,7 @@
           "osProfile": {
             "computerNamePrefix": "[parameters('vmssNamePrefix')]",
             "adminUsername": "[parameters('adminUsername')]",
+            "customData": "[base64(parameters('cloudInit'))]",
             "linuxConfiguration": {
               "disablePasswordAuthentication": true,
               "ssh": {
