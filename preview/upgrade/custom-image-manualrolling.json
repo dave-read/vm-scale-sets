@@ -64,8 +64,8 @@
     "bepoolName": "[concat(variables('lbName'), 'bepool')]",
     "bepoolID": "[concat(variables('lbID'),'/backendAddressPools/', variables('bepoolName'))]",
     "lbProbeName": "lbProbe",
-    "networkApiVersion": "2017-04-01",
-    "computeApiVersion": "2017-03-30",
+    "networkApiVersion": "2017-11-01",
+    "computeApiVersion": "2017-12-01",
     "sshKeyPath": "[concat('/home/',parameters('adminUserName'),'/.ssh/authorized_keys')]",
     "lbNAT": "lbNAT"
   },
@@ -74,7 +74,7 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('pipName')]",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2017-08-01",
+      "apiVersion": "[variables('networkApiVersion')]",
       "sku": {
         "name": "Standard"
       },
@@ -120,7 +120,7 @@
         "[concat('Microsoft.Network/publicIPAddresses/', variables('pipName'))]",
         "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
       ],
-      "apiVersion": "2017-08-01",
+      "apiVersion": "[variables('networkApiVersion')]",
       "sku": {
         "name": "Standard"
       },
@@ -191,7 +191,7 @@
     },
     {
       "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2016-03-30",
+      "apiVersion": "[variables('networkApiVersion')]",
       "name": "[variables('securityGroupName')]",
       "location": "[resourceGroup().location]",
       "properties": {
