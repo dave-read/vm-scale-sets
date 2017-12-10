@@ -1,8 +1,8 @@
+#!/usr/bin/env bash
 
 RG=dr-vmss-upgrade
 LOCATION=centralus
 TEMPLATE=custom-image-manualrolling.json
-PARMS=custom-image-manualrolling-parameters.json
 
 imageResourceGroup="dr-custom-images"
 imageName="CentosCustom74-CI_v1"
@@ -14,7 +14,6 @@ az group deployment create \
   --name $RG \
   --resource-group $RG \
   --template-file $TEMPLATE \
-  --parameters $PARMS \
   --parameters \
   cloudInit="$cloudInit" \
   sshKeyData="$sshKeyData" \
