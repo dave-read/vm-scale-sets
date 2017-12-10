@@ -15,7 +15,7 @@
 VMSS_NAME=dr
 VMSS_RG=dr-vmss-upgrade
 
-IMAGE_NAME=CentosCustom7.3
+IMAGE_NAME=CentosCustom74-CI
 IMAGE_RG=dr-custom-images
 IMAGE_NEW_VERSION=v2
 
