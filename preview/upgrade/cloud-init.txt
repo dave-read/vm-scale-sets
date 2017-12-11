@@ -40,7 +40,7 @@ write_files:
 - content: |
     [Unit]
     Description=myprobe
-    Requires=httpd.service
+    Requires=network.target
     [Service]
     ExecStart=/bin/sh /var/myprobe/myprobe.sh
     KillMode=process

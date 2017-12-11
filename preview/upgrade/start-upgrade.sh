@@ -17,7 +17,7 @@ VMSS_RG=$1
 
 IMAGE_NAME=CentosCustom74-CI
 IMAGE_RG=$2
-IMAGE_NEW_VERSION=v2
+IMAGE_NEW_VERSION=v1
 
 if ! [ $VMSS_RG ] || ! [ $IMAGE_RG ]; then 
   echo "Specify RG to deploy and RG with custom images"

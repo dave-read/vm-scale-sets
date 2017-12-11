@@ -8,7 +8,7 @@ if ! [ $RG ] || ! [ $imageResourceGroup ]; then
 fi
 
 LOCATION=centralus
-TEMPLATE=custom-image-manualrolling.json
+TEMPLATE=custom-image-manualrolling-tm.json
 
 #imageResourceGroup="sk-custom-images"
 imageName="CentosCustom74-CI_v1"
