@@ -9,4 +9,48 @@ write_files:
   path: /var/www/html/cloud-init.html
   owner: root:root
   permissions: '0755'
-
+- content: | 
+    frun=true
+    _term() {
+        echo "Killing ncat"
+        kill -s TERM $pid2
+        echo "Sleeping for 30 sec before proceeding..."
+        sleep 30
+        echo "Proceeding..."
+        kill -s TERM $pid1
+        frun=false
+    }
+    echo "Start up the monitor of shutdown"
+    /usr/sbin/httpd
+    sleep 2
+    pid1=$(cat /run/httpd/httpd.pid)
+    ncat -k -l 4444 &
+    pid2=$!
+    echo "Started httpd server with pid $pid1"
+    echo "Started ncat server with pid $pid2"
+    trap _term INT TERM
+    while $frun
+    do
+      sleep 2
+    done
+    echo "Exiting now"
+  path: /var/myprobe/myprobe.sh
+  owner: root:root
+  permissions: '0755'
+- content: |
+    [Unit]
+    Description=myprobe
+    Requires=httpd.service
+    [Service]
+    ExecStart=/bin/sh /var/myprobe/myprobe.sh
+    KillMode=process
+    [Install]
+    WantedBy=multi-user.target
+  path: /etc/systemd/system/myprobe.service
+  owner: root:root
+  permissions: '0755'
+runcmd:
+  - [ yum, -y, install, nc ]
+  - [ systemctl, daemon-reload ]
+  - [ systemctl, enable, myprobe.service ]
+  - [ systemctl, start, --no-block, myprobe.service ]

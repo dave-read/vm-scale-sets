@@ -2,3 +2,4 @@
 az feature register  --namespace Microsoft.Network -n AllowVmssHealthProbe
 az feature show      --namespace Microsoft.Network -n AllowVmssHealthProbe
 az provider register --namespace Microsoft.Network
+az feature register --name AllowLBPreview --namespace Microsoft.Network

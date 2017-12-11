@@ -13,11 +13,16 @@
 # limitations under the License.
 #--------------------------------------------------------------------------
 VMSS_NAME=dr
-VMSS_RG=dr-vmss-upgrade
+VMSS_RG=$1
 
 IMAGE_NAME=CentosCustom74-CI
-IMAGE_RG=dr-custom-images
+IMAGE_RG=$2
 IMAGE_NEW_VERSION=v2
+
+if ! [ $VMSS_RG ] || ! [ $IMAGE_RG ]; then 
+  echo "Specify RG to deploy and RG with custom images"
+  exit
+fi
 
 SUB=$(az account show --query id 2>&1)
 if [ ! $? -eq 0 ]; then

@@ -1,10 +1,16 @@
 #!/usr/bin/env bash
 
-RG=dr-vmss-upgrade
+RG=$1
+imageResourceGroup=$2
+if ! [ $RG ] || ! [ $imageResourceGroup ]; then 
+  echo "Specify RG to deploy and RG with custom images"
+  exit
+fi
+
 LOCATION=centralus
 TEMPLATE=custom-image-manualrolling.json
 
-imageResourceGroup="dr-custom-images"
+#imageResourceGroup="sk-custom-images"
 imageName="CentosCustom74-CI_v1"
 cloudInit=$(<cloud-init.txt)
 sshKeyData=$(<~/.ssh/id_rsa.pub)
