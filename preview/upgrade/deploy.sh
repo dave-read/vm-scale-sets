@@ -26,6 +26,5 @@ az group deployment create \
   imageResourceGroup="$imageResourceGroup" \
   imageName="$imageName" \
   dnsPrefix="$RG" \
-  vmssNamePrefix=dr \
   instanceCount=3 \
   adminUsername="az${USER}"

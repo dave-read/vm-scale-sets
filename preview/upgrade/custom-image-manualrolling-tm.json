@@ -2,10 +2,6 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "vmssNamePrefix": {
-      "type": "string",
-      "maxLength": 12
-    },
     "instanceCount": {
       "type": "int",
       "defaultValue": 3,
@@ -48,20 +44,21 @@
     }
   },
   "variables": {
-    "pipName1": "[concat(variables('namingInfix'), 'pip1')]",
-    "pipName2": "[concat(variables('namingInfix'), 'pip2')]",
+    "namingInfix": "[toLower(parameters('dnsPrefix'))]",
+    "pipName1": "[concat(variables('namingInfix'), '-pip1')]",
+    "pipName2": "[concat(variables('namingInfix'), '-pip2')]",
     "managedImageId": "[resourceId(parameters('imageResourceGroup'), 'Microsoft.Compute/images', parameters('imageName'))]",
     "addressPrefix": "10.0.0.0/8",
-    "namingInfix": "[toLower(parameters('vmssNamePrefix'))]",
-    "newVNETName": "[concat(variables('namingInfix'), 'vnet')]",
-    "tmName": "[concat(variables('namingInfix'), 'tm')]",
+    "vmssNamePrefix": "[concat(variables('namingInfix'), '-vmss')]",
+    "newVNETName": "[concat(variables('namingInfix'), '-vnet')]",
+    "tmName": "[concat(variables('namingInfix'), '-tm')]",
     "subnetName1": "subnet1",
     "subnetName2": "subnet2",
     "subnetPrefix1": "10.0.0.0/16",
     "subnetPrefix2": "10.1.0.0/16",
     "securityGroupName": "[concat(variables('namingInfix'), '-sg')]",
-    "lbName1": "[concat(variables('namingInfix'), 'lb1')]",
-    "lbName2": "[concat(variables('namingInfix'), 'lb2')]",
+    "lbName1": "[concat(variables('namingInfix'), '-lb1')]",
+    "lbName2": "[concat(variables('namingInfix'), '-lb2')]",
     "fepoolName": "FrontendPool",
     "feIpConfigName": "[concat(variables('fepoolName'), 'IpConfig')]",
     "bepoolName": "BackendPool",
@@ -333,7 +330,7 @@
     {
       "type": "Microsoft.Compute/virtualMachineScaleSets",
       "apiVersion": "[variables('computeApiVersion')]",
-      "name": "[concat(parameters('vmssNamePrefix'), '1')]",
+      "name": "[concat(variables('vmssNamePrefix'), '1')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/loadBalancers/', variables('lbName1'))]",
@@ -367,7 +364,7 @@
             }
           },
           "osProfile": {
-            "computerNamePrefix": "[parameters('vmssNamePrefix')]",
+            "computerNamePrefix": "[variables('vmssNamePrefix')]",
             "adminUsername": "[parameters('adminUsername')]",
             "customData": "[base64(parameters('cloudInit'))]",
             "linuxConfiguration": {
@@ -388,12 +385,12 @@
             },
             "networkInterfaceConfigurations": [
               {
-                "name": "[concat('nic', parameters('vmssNamePrefix'))]",
+                "name": "[concat('nic', variables('vmssNamePrefix'))]",
                 "properties": {
                   "primary": "true",
                   "ipConfigurations": [
                     {
-                      "name": "[concat('ipconfig', parameters('vmssNamePrefix'))]",
+                      "name": "[concat('ipconfig', variables('vmssNamePrefix'))]",
                       "properties": {
                         "subnet": {
                           "Id": "[concat(resourceId('Microsoft.Network/virtualNetworks/', variables('newVNETName')), '/subnets/', variables('subnetName1'))]"
@@ -438,7 +435,7 @@
     {
       "type": "Microsoft.Compute/virtualMachineScaleSets",
       "apiVersion": "[variables('computeApiVersion')]",
-      "name": "[concat(parameters('vmssNamePrefix'), '2')]",
+      "name": "[concat(variables('vmssNamePrefix'), '2')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/loadBalancers/', variables('lbName2'))]",
@@ -472,7 +469,7 @@
             }
           },
           "osProfile": {
-            "computerNamePrefix": "[parameters('vmssNamePrefix')]",
+            "computerNamePrefix": "[variables('vmssNamePrefix')]",
             "adminUsername": "[parameters('adminUsername')]",
             "customData": "[base64(parameters('cloudInit'))]",
             "linuxConfiguration": {
@@ -493,12 +490,12 @@
             },
             "networkInterfaceConfigurations": [
               {
-                "name": "[concat('nic', parameters('vmssNamePrefix'))]",
+                "name": "[concat('nic', variables('vmssNamePrefix'))]",
                 "properties": {
                   "primary": "true",
                   "ipConfigurations": [
                     {
-                      "name": "[concat('ipconfig', parameters('vmssNamePrefix'))]",
+                      "name": "[concat('ipconfig', variables('vmssNamePrefix'))]",
                       "properties": {
                         "subnet": {
                           "Id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('newVNETName')), '/subnets/', variables('subnetName2'))]"

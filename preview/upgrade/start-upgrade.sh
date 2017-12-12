@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #--------------------------------------------------------------------------
-VMSS_NAME=dr
+VMSS_NAME=dr1
 VMSS_RG=$1
 
 IMAGE_NAME=CentosCustom74-CI
 IMAGE_RG=$2
-IMAGE_NEW_VERSION=v1
+IMAGE_NEW_VERSION=v2
 
 if ! [ $VMSS_RG ] || ! [ $IMAGE_RG ]; then 
   echo "Specify RG to deploy and RG with custom images"
@@ -50,5 +50,5 @@ while true
 do
    az vmss rolling-upgrade get-latest --name $VMSS_NAME --resource-group $VMSS_RG
    echo "status $?"
-   sleep 1
+   sleep 10
 done
